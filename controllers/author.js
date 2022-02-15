@@ -3,15 +3,14 @@ const Sequelize = require("sequelize");
 const sequelize = new Sequelize('mysql://root:qwerty@localhost:3306/joga_sequelize')
 
 // read model data for table representation
-const Article = require('../models/article')(sequelize, Sequelize.DataTypes);
 const Author = require('../models/author')(sequelize, Sequelize.DataTypes);
 
 // get all data from table
-const getAllArticles = (req, res) => {
-	Article.findAll()
-	.then(articles => {
-	console.log(articles)
-	return res.status(200).json({ articles });
+const getAllAuthors = (req, res) => {
+	Author.findAll()
+	.then(authors => {
+	console.log(authors)
+	return res.status(200).json({ authors });
 	})
 	.catch (error => {
 	return res.status(500).send(error.message);
@@ -19,22 +18,15 @@ const getAllArticles = (req, res) => {
 }
 
 // show article by this slug
-const getArticleBySlug = (req, res) => {
-	Article.findOne({
+const getAuthorBySlug = (req, res) => {
+	Author.findOne({
 		where: {
 			slug : req.params.slug
-		},
-		include: [
-		{
-			model: Author,
-			attributes: ["id", "name"],
-			on: { id: Sequelize.col('Article.author_id') }
 		}
-		]
 	})
-	.then(article => {
-		console.log(article)
-		return res.status(200).json({ article });
+	.then(author => {
+		console.log(author)
+		return res.status(200).json({ author });
 	})
 	.catch (error => {
 		return res.status(500).send(error.message);
@@ -43,6 +35,6 @@ const getArticleBySlug = (req, res) => {
 
 // export controller functions
 module.exports = {
-	getAllArticles,
-	getArticleBySlug
+	getAllAuthors,
+	getAuthorBySlug
 };

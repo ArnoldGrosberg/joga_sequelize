@@ -46,5 +46,10 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Article',
   });
+
+Article.associate = function (models) {
+  Article.hasOne(models.Author);
+}
+
   return Article;
 };
