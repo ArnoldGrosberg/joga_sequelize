@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // connect to database
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize('mysql://root:qwerty@localhost:3000/joga_sequelize')
+const sequelize = new Sequelize('mysql://root:qwerty@localhost:3306/joga_sequelize')
 
 // testing connection
 sequelize
@@ -24,7 +24,12 @@ sequelize
 // using routes and controllers
 const articleRouter = require('./routes/article');
 app.use('/', articleRouter);
+app.use('/article', articleRouter)
 
+// simple route 
+//app.get("/", (req, res) => {
+//	res.json({ message: "WElcome to application."});
+//});
 
 // listen requests
 app.listen(3000, () => {
