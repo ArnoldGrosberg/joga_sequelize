@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      Author.hasOne(Article, {foreignKey: 'fk_customerid', targetKey: 'author_id'});
       // define association here
     }
   }
@@ -24,10 +25,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     }
-  }, {
+ //  , author_id: DataTypes.INTEGER,
+//    foreignKey: true,
+ //   constraints: false
+ }, {
     sequelize,
     modelName: 'Author',
 });
 
+// const Sequelize = require("sequelize");
+// const Article = require('./article')(sequelize, Sequelize.DataTypes);
   return Author;
 };
