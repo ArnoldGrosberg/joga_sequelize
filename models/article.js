@@ -10,8 +10,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Article.belongsTo(Author, {foreignKey: 'fk_customerid', targetKey: 'id'});
       // define association here
+      this.belongsTo(models.Author, {
+        foreignKey: {
+          name: 'AuthorId',
+          field: 'Author_id',
+        }
+      })
     }
   }
   Article.init({
