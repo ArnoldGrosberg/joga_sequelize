@@ -4,6 +4,7 @@ const sequelize = new Sequelize('mysql://root:qwerty@localhost:3306/joga_sequeli
 
 // read model data for table representation
 const Author = require('../models/author')(sequelize, Sequelize.DataTypes);
+const models = require('../models')
 
 // get all data from table
 const getAllAuthors = (req, res) => {
@@ -23,6 +24,27 @@ const getAuthorBySlug = (req, res) => {
 		where: {
 			slug : req.params.slug
 		}
+	})/*
+	models.Author.findByPk(req.params.id, {
+		include: [{
+			model: models.Article
+		}],
+	})*/
+	.then(author => {
+		console.log(author)
+		return res.status(200).json({ author });
+	})
+	.catch (error => {
+		return res.status(500).send(error.message);
+	})
+};
+
+// show article by this id
+const getAuthorbyId = (req, res) => {
+	models.Author.findByPk(req.params.id, {
+		include: [{
+			model: models.Article
+		}],
 	})
 	.then(author => {
 		console.log(author)
@@ -36,5 +58,6 @@ const getAuthorBySlug = (req, res) => {
 // export controller functions
 module.exports = {
 	getAllAuthors,
-	getAuthorBySlug
+	getAuthorBySlug,
+	getAuthorbyId
 };
