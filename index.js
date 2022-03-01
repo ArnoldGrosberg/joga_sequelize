@@ -25,11 +25,13 @@ sequelize
 const articleRouter = require('./routes/article');
 const authorRouter = require('./routes/author');
 const editRouter = require('./routes/edit');
+const apiRouter = require('./routes/api');
 app.use('/', articleRouter);
 app.use('/article', articleRouter)
 app.use('/author', authorRouter)
 app.use('admin/article', articleRouter)
 app.use('/edit', editRouter)
+app.use('/api', apiRouter)
 
 // simple route 
 //app.get("/", (req, res) => {
