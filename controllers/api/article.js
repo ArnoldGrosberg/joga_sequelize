@@ -12,7 +12,7 @@ const getArticleBySlug = (req, res) => {
 		return res.status(400).json({ 'error': 'Invalid request'});
 	} else if (req.query.q === ''){
 		return res.status(400).json({ 'error': 'Invalid request'});
-	} else {
+	} else if (req.query.q){
 		models.Article.findOne({
 		where: {
 			slug : req.query.q
@@ -36,6 +36,31 @@ const getArticleBySlug = (req, res) => {
 	.catch (error => {
 		return res.status(500).send(error.message);
 	})
+	} else if (req.query.id === ''){
+		return res.status(400).json({ 'error': 'Invalid request'});
+	} else if (req.query.id){
+			models.Article.findByPk(req.query.id, {
+		include: [
+		{
+			model: models.Author,
+		},
+		{
+			model: models.Tags,
+			through: {
+				model: models.ArticleTag
+			}
+		}
+		],
+	})
+	.then(article => {
+		console.log(article)
+		return res.status(200).json({ article });
+	})
+	.catch (error => {
+		return res.status(500).send(error.message);
+	})
+		} else {
+		return res.status(400).json({ 'error': 'Invalid request'});
 	}
 };
 
