@@ -36,7 +36,7 @@ con.connect(function(err){
 
 // show all articles - index page
 app.get('/', (req, res) => {
-	let query = "SELECT * FROM article";
+	let query = "SELECT * FROM Articles";
 	let articles = []
 	con.query(query, (err, result) => {
 	if (err) throw err;
