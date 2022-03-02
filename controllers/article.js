@@ -1,6 +1,8 @@
 // connect to database
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize('mysql://root:qwerty@localhost:3306/joga_sequelize')
+// import database connection
+const con = require('../utils/db');
 
 // read model data for table representation
 const models = require('../models')
@@ -37,7 +39,10 @@ const getArticleBySlug = (req, res) => {
 	})
 	.then(article => {
 		console.log(article)
-		return res.status(200).json({ article });
+		return res.render('article', {
+			article: article
+		})
+		// return res.status(200).json({ article });
 	})
 	.catch (error => {
 		return res.status(500).send(error.message);
