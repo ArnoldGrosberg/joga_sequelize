@@ -39,18 +39,75 @@ const getArticleBySlug = (req, res) => {
 	})
 	.then(article => {
 		console.log(article)
-		return res.render('article', {
-			article: article
-		})
-		// return res.status(200).json({ article });
+		//return res.render('article', {
+		//	article: article
+		//})
+		 return res.status(200).json({ article });
 	})
 	.catch (error => {
 		return res.status(500).send(error.message);
 	})
 };
 
+// show article by this slug
+const getArticleBySlugWithItsTemplate = (req, res) => {
+	let query = `SELECT * FROM Articles WHERE slug="${req.params.slug}"`
+	let article
+	con.query(query, (err, result) => {
+		if (err) throw err;
+		article = result
+		console.log(article)
+		res.render('article', {
+			article: article
+		})
+	});
+};
+
+
+
+
+// show all articles - index page app.get('/',
+const getArticleTemplates = (req, res) => {
+	let query = "SELECT * FROM Articles";
+	let articles = []
+	con.query(query, (err, result) => {
+	if (err) throw err;
+	articles = result
+	res.render('index', {
+		articles: articles
+	})
+})
+};
+
+
+// show articles by author app.get('/author/:id',
+ const getArticleAuthorWithItsTemplate = (req, res) => {
+	// query for the name and articles
+	let authorQuery = `SELECT name as author_name FROM Authors WHERE id = ${req.params.id}`
+	let author
+	let articlesQuery = `SELECT * FROM Articles WHERE author_id = ${req.params.id}`
+	let articles
+	// does the query
+	con.query(articlesQuery, (err, result) => {
+		if (err) throw err;
+		articles = result
+	})
+	con.query(authorQuery, (err, result) => {
+		if (err) throw err;
+		author = result
+		// render author and articles tags.
+		res.render('author', {
+			author: author,
+			articles: articles
+		})
+	})
+};
+
 // export controller functions
 module.exports = {
 	getAllArticles,
-	getArticleBySlug
+	getArticleBySlug,
+	getArticleBySlugWithItsTemplate,
+	getArticleTemplates,
+	getArticleAuthorWithItsTemplate
 };
